@@ -1,5 +1,5 @@
 //since we are using ES6modules here we need to use import instead of require
-
+import 'express-async-errors'
 import * as dotenv from "dotenv";
 dotenv.config();
 import express from 'express';
@@ -8,6 +8,7 @@ import mongoose from "mongoose";
 const app = express();
 
 import router from "./routers/JobRouter.js";
+import errorHandlerMiddleware from './middlewares/errorHandlerMiddleware.js';
 
 if(process.env.NODE_ENV==='development'){
     app.use(morgan('dev')); //it is used to log the information of our request  
@@ -34,12 +35,7 @@ app.use('*',(req,res)=>{
     res.status(404).json({msg:"Page not found"})
 })
 
-//handling errors
-app.use((err,req,res,next)=>{
-    console.log(err);
-    res.status(500).json({msg: 'something went wrong'})
-})
-
+app.use(errorHandlerMiddleware)
 //check the port is running or not
 //the dotenv port will change at the time of deployment
 //if the port is not assigned in .env file the 5000 will be assigned to it
