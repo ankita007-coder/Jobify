@@ -13,8 +13,7 @@ export const getAllJobs = async(req,res)=>{
 
 //to create new jobs
 export const createJob= async(req,res)=>{
-        const {company,profession} = req.body;
-        const job = await Job.create({company,profession})
+        const job = await Job.create(req.body)
         res.status(StatusCodes.CREATED).send(job);
  }
 
@@ -22,9 +21,6 @@ export const createJob= async(req,res)=>{
 export const getJob = async(req,res)=>{
     const {id} = req.params;
     const job = await Job.findById(id);
-    if(!job){
-        throw new NotFoundError('`no job with id ${id}')
-    }
     res.status(StatusCodes.OK).send(job);
 }
 
@@ -34,9 +30,6 @@ export const editJob = async(req,res)=>{
     const job = await Job.findByIdAndUpdate(id,req.body,{
         new: true
     });
-    if(!job){
-        throw new NotFoundError('`no job with id ${id}')    
-    }
     res.status(StatusCodes.OK).json({msg:"modified job",job})
 }
 
@@ -44,9 +37,5 @@ export const editJob = async(req,res)=>{
 export const deleteJob = async(req,res)=>{
     const {id} = req.params;
     const job = Job.findByIdAndDelete(id)
-    //console.log(job);
-    if(!job){
-        throw new NotFoundError('`no job with id ${id}')
-     }
-    res.status(StatusCodes.OK).json({msg: 'job deleted'})
+    res.status(StatusCodes.OK).json({msg: 'job deleted',job})
 }

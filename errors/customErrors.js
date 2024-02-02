@@ -27,11 +27,11 @@ export class UnauthenticatedError extends Error{
     }
 }
 
-//this is 
+//this is 403 error
 export class UnauthorizedError extends Error{
     constructor(msg){
         super(msg)
         this.name = "UnauthorizedError";
-        this.statusCode = StatusCodes.UNAUTHORIZED
+        this.statusCode = StatusCodes.FORBIDDEN
     }
 }

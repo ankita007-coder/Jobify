@@ -9,16 +9,16 @@ import {
         getAllJobs,
         getJob
     } from '../controllers/JobController.js';
+import { validateIdParam, validateJobInput } from "../middlewares/validationMiddleware.js";
 
 //get all jobs
 router.get('/',getAllJobs);
-//create new jobs route
-router.post('/',createJob);
+router.post('/',validateJobInput,createJob);
 //get single job route
-router.get('/:id',getJob);
+router.get('/:id',validateIdParam,getJob);
 //edit or update jobs
-router.patch('/:id',editJob);
+router.patch('/:id',validateJobInput,editJob);
 //delete job
-router.delete('/:id',deleteJob);
+router.delete('/:id',validateIdParam,deleteJob);
 
 export default router;

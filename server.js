@@ -9,6 +9,8 @@ const app = express();
 
 import router from "./routers/JobRouter.js";
 import errorHandlerMiddleware from './middlewares/errorHandlerMiddleware.js';
+//inorder to avoid getting null values from user we use validator from express-validator
+
 
 if(process.env.NODE_ENV==='development'){
     app.use(morgan('dev')); //it is used to log the information of our request  
@@ -19,14 +21,7 @@ if(process.env.NODE_ENV==='development'){
 //for getting data from the frontend
 app.use(express.json());
 
-app.get('/',(req,res)=>{//route handler or controller
-    res.send("Hello World")
-});
-//for getting data from the frontend and sending confirmation
-app.post('/',(req,res)=>{
-    console.log(req);
-    res.json({message: "data received",data: req.body})
-})
+
 
 app.use('/api/v1/jobs',router);
 
