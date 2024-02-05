@@ -7,14 +7,16 @@ import { NotFoundError } from "../errors/customErrors.js";
 
 //to get all jobs
 export const getAllJobs = async(req,res)=>{
-    const jobs = await Job.find({})
+    //console.log(req.user);
+    const jobs = await Job.find({createdBy:req.user.userId});
     res.status(StatusCodes.OK).send(jobs);
 }
 
 //to create new jobs
 export const createJob= async(req,res)=>{
-        const job = await Job.create(req.body)
-        res.status(StatusCodes.CREATED).send(job);
+    req.body.createdBy = req.user.userId;
+    const job = await Job.create(req.body)
+    res.status(StatusCodes.CREATED).send(job);
  }
 
 //get single job controller
