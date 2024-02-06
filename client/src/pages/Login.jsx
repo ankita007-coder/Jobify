@@ -23,7 +23,7 @@ const Login = () => {
           submit
         </button>
         <button type="button" className='btn btn-block'>
-          exlore the app
+          explore the app
         </button>
         <p>Not a member yet? <Link to="/register" className='member-btn' >Register</Link></p>
       </form>
