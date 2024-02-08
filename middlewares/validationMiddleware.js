@@ -42,7 +42,7 @@ export const validateIdParam = withValidationErrors([
         if(!isValidId) {
             throw new BadRequestError('invalid id')
         }
-        const job = Job.findById(value);
+        const job = await Job.findById(value);
         if(!job){
             throw new NotFoundError(`no job found with ${value}`)
         }

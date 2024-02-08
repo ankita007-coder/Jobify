@@ -1,8 +1,6 @@
-import { json } from "express";
 import Job from "../models/JobModel.js"
-import { nanoid } from "nanoid";
 import { StatusCodes } from "http-status-codes";
-import { NotFoundError } from "../errors/customErrors.js";
+
 
 
 //to get all jobs
@@ -23,7 +21,7 @@ export const createJob= async(req,res)=>{
 export const getJob = async(req,res)=>{
     const {id} = req.params;
     const job = await Job.findById(id);
-    res.status(StatusCodes.OK).send(job);
+    res.status(StatusCodes.OK).json({job});
 }
 
 //edit job controller
@@ -38,6 +36,6 @@ export const editJob = async(req,res)=>{
 //delete job controller
 export const deleteJob = async(req,res)=>{
     const {id} = req.params;
-    const job = Job.findByIdAndDelete(id)
+    const job =await Job.findByIdAndDelete(id)
     res.status(StatusCodes.OK).json({msg: 'job deleted',job})
 }

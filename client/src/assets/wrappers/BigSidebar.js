@@ -61,6 +61,9 @@ const Wrapper = styled.aside`
     .active .icon {
       color: var(--primary-500);
     }
+    .pending{
+      background:var(--background-color);
+    }
   }
 `
 export default Wrapper

@@ -7,6 +7,7 @@ const Wrapper = styled.section`
   }
   & > h5 {
     font-weight: 700;
+    margin-bottom: 1.5rem;
   }
   .jobs {
     display: grid;

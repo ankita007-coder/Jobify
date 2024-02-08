@@ -13,11 +13,18 @@ import {
   AddJob,
   Profile,
   Admin,
+  EditJob,
 } from './pages'; // Import page components
 
 import { action as registerAction } from './pages/Register'; // Import register action
 import { action as loginAction } from './pages/Login'; // Import login action
 import { loader as dashboardLoader } from './pages/DashboardLayout';
+import { action as addJobAction} from './pages/AddJob';
+import { loader as allJobsLoader } from './pages/AllJobs';
+import { action as editJobAction } from './pages/EditJob';
+import { loader as editJobLoader } from './pages/EditJob';
+import { action as deleteJobAction} from './pages/DeleteJob';
+import { loader as adminLoader} from './pages/Admin';
 
 // Function to check and apply default theme preference
 export const checkDefaultTheme = () => {
@@ -56,7 +63,8 @@ const router = createBrowserRouter([
         children: [
           {
             index: true, // Default child route for dashboard
-            element: <AddJob />, // Render AddJob component
+            element: <AddJob />, // Render AddJob 
+            action:addJobAction
           },
           {
             path: 'stats', // Route for statistics
@@ -65,6 +73,7 @@ const router = createBrowserRouter([
           {
             path: 'all-jobs', // Route for all jobs
             element: <AllJobs />, // Render AllJobs component
+            loader: allJobsLoader
           },
           {
             path: 'profile', // Route for user profile
@@ -73,7 +82,17 @@ const router = createBrowserRouter([
           {
             path: 'admin', // Route for admin area
             element: <Admin />, // Render Admin component
+            loader:adminLoader
           },
+          {
+            path: 'edit-job/:id',
+            element: <EditJob/>,
+            loader: editJobLoader,
+            action: editJobAction
+          },{
+            path:'delete-job/:id',
+            action: deleteJobAction
+          }
         ],
       },
     ],

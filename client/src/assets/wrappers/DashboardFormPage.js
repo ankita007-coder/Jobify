@@ -2,6 +2,9 @@ import styled from 'styled-components'
 
 const Wrapper = styled.section`
 
+  border-radius: var(--borderRadius);
+  background-color:var(--background-color);
+  width:100%;
   .dashboard{
     display:grid;
     grid-template-columns: 1fr;
@@ -15,12 +18,13 @@ const Wrapper = styled.section`
     margin-top: 0;
   }
   .form {
-    margin: 0;
-    border-radius: 0;
+    background-color:var(--backgroundSecondaryColor);
+    padding: 20px;
+    margin: 10px;
     box-shadow: none;
-    padding: 0;
     max-width: 100%;
     width: 100%;
+    color:var(--text-color);
   }
   .form-row {
     margin-bottom: 0;
@@ -33,6 +37,9 @@ const Wrapper = styled.section`
     align-self: end;
     height: 35px;
     margin-top: 1rem;
+  }
+  .form-input{
+    color:var(--text-color);
   }
   .btn-container {
     display: grid;
@@ -49,6 +56,10 @@ const Wrapper = styled.section`
   }
   .clear-btn:hover {
     background: var(--black);
+  }
+  .form-select{
+    background-color:var(--backgroundSecondaryColor);
+    color:var(--text-color);
   }
   @media (min-width: 992px) {
     .dashboard{

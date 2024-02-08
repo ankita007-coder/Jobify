@@ -5,16 +5,16 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
 
-  .icon {
+  .job-icon {
     font-size: 1rem;
     margin-right: 1rem;
     display: flex;
     align-items: center;
     svg {
-      color: var(--grey-400);
+      color: var(--text-secondary-color);
     }
   }
-  .text {
+  .job-text {
     text-transform: capitalize;
     letter-spacing: var(--letterSpacing);
   }

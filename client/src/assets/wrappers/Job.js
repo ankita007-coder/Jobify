@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const Wrapper = styled.article`
-  background: var(--white);
+  background: var(--backgroundSecondaryColor);
   border-radius: var(--borderRadius);
   display: grid;
   grid-template-rows: 1fr auto;
@@ -58,6 +58,8 @@ const Wrapper = styled.article`
   }
   .content-center {
     display: grid;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
     grid-template-columns: 1fr;
     row-gap: 0.5rem;
     @media (min-width: 576px) {
@@ -82,11 +84,16 @@ const Wrapper = styled.article`
   footer {
     margin-top: 1rem;
   }
+  .actions{
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+  }
   .edit-btn,
   .delete-btn {
-    letter-spacing: var(--letterSpacing);
-    cursor: pointer;
     height: 30px;
+    display: flex;
+    font-size: 0.85rem;
   }
   .edit-btn {
     color: var(--green-dark);
