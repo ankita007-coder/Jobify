@@ -25,6 +25,7 @@ import { action as editJobAction } from './pages/EditJob';
 import { loader as editJobLoader } from './pages/EditJob';
 import { action as deleteJobAction} from './pages/DeleteJob';
 import { loader as adminLoader} from './pages/Admin';
+import { action as profileAction } from './pages/Profile';
 
 // Function to check and apply default theme preference
 export const checkDefaultTheme = () => {
@@ -78,6 +79,7 @@ const router = createBrowserRouter([
           {
             path: 'profile', // Route for user profile
             element: <Profile />, // Render Profile component
+            action: profileAction
           },
           {
             path: 'admin', // Route for admin area
