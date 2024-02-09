@@ -15,13 +15,41 @@ import { authenticateUser } from "./middlewares/authMiddleware.js";
 import userRouter from './routers/userRouter.js';
 import authRouter from './routers/authRouter.js';
 import JobRouter from "./routers/JobRouter.js";
+
+//public
+//The dirname function is used to get the directory name of a path.
+import {dirname} from 'path';
+//The fileURLToPath function is used to convert a file URL to a file system path.
+import { fileURLToPath } from 'url';
+import path from 'path';
+import cloudinary from 'cloudinary';
+          
+
+
+/*import.meta.url is a special variable in ECMAScript modules that provides the URL of 
+the current module.
+fileURLToPath(import.meta.url) converts the file URL of the module to a file system path.
+dirname(fileURLToPath(import.meta.url)) extracts the directory name from the file system path, 
+giving you the current directory of the module.
+*/
+const __dirname = dirname(fileURLToPath(import.meta.url))
+
+
 if(process.env.NODE_ENV==='development'){
     app.use(morgan('dev')); //it is used to log the information of our request  
 }
 
+cloudinary.config({ 
+    cloud_name: process.env.CLOUD_NAME, 
+    api_key: process.env.CLOUD_API_KEY, 
+    api_secret: process.env.CLOUD_API_SECRET 
+  });
+// Serve static files from the 'public' directory on the browser
+app.use(express.static(path.resolve(__dirname,'./public')));
 
 app.use(cookieParser());
-//for getting data from the frontend
+
+// Enable parsing of JSON data in request bodies
 app.use(express.json());
 
 app.use('/api/v1/auth',authRouter);

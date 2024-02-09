@@ -1,6 +1,8 @@
 import { StatusCodes } from "http-status-codes"
 import User from "../models/UserModel.js";
 import Job from "../models/JobModel.js";
+import {promises as fs} from 'fs'
+import cloudinary from 'cloudinary';
 
 
 export const getCurrentUser = async(req,res)=>{
@@ -15,9 +17,36 @@ export const getApplicationStats = async(req,res)=>{
     res.status(StatusCodes.OK).json({msg:'application stats',users,jobs});
 }
 
-export const updateUser = async(req,res)=>{
-    const obj = {...req.body};
-    delete obj.password;
-    const updateUser = await User.findByIdAndUpdate(req.user.userId,obj)
-    res.status(StatusCodes.OK).json({msg:'update user',user:updateUser});
-}
+export const updateUser = async (req, res) => {
+    // Create a shallow copy of the request body
+    const newUser = { ...req.body };
+    
+    // Remove the 'password' property from the newUser object
+    delete newUser.password;
+
+    // Check if a file exists in the request (file upload)
+    if (req.file) {
+        // Upload the file to Cloudinary
+        const response = await cloudinary.v2.uploader.upload(req.file.path);
+        
+        // Delete the temporary file from the server
+        await fs.unlink(req.file.path);
+
+        // Update the newUser object with avatar information from Cloudinary
+        newUser.avatar = response.secure_url;
+        newUser.avatarPublicId = response.public_id;
+    }
+
+    // Update the user in the database with the new user information and here updated user is the previous user info only
+    //in order to get updated info we have to use new:true but since we need prev info here we are not returning updated user info
+    const updatedUser = await User.findByIdAndUpdate(req.user.userId, newUser);
+
+    // Check if a file was uploaded and if the user had a previous avatar
+    if (req.file && updatedUser.avatarPublicId) {
+        // Destroy the previous avatar on Cloudinary
+        await cloudinary.v2.uploader.destroy(updatedUser.avatarPublicId);
+    }
+
+    // Respond with a JSON object indicating successful user update
+    res.status(StatusCodes.OK).json({ msg: 'updated user', user: updatedUser });
+};
