@@ -26,7 +26,7 @@ import { loader as editJobLoader } from './pages/EditJob';
 import { action as deleteJobAction} from './pages/DeleteJob';
 import { loader as adminLoader} from './pages/Admin';
 import { action as profileAction } from './pages/Profile';
-
+import { loader as statsLoader } from './pages/Stats';
 // Function to check and apply default theme preference
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem('dark-theme') === 'true';
@@ -70,6 +70,7 @@ const router = createBrowserRouter([
           {
             path: 'stats', // Route for statistics
             element: <Stats />, // Render Stats component
+            loader: statsLoader
           },
           {
             path: 'all-jobs', // Route for all jobs
