@@ -9,6 +9,11 @@ export const getAllJobs = async(req,res)=>{
     const {search, jobStatus, jobType, sort} = req.query;
     const queryObject = {
         createdBy: req.user.userId
+        //It initializes a query object with a condition 
+        //that filters jobs based on the user who created 
+        //them. req.user.userId suggests that user 
+        //authentication is in place, and the user ID is \
+        //used to filter jobs.
     }
     if(search){
         queryObject.$or = [
@@ -17,6 +22,10 @@ export const getAllJobs = async(req,res)=>{
             },
             {
                 company: {$regex: search, $options: 'i'}
+                //By including $options: 'i', the regular 
+                //expression match is performed in a case-insensitive 
+                //manner. It means that the search for search in the 
+                //position and company fields is not case-sensitive.
             },
         ];
     }
