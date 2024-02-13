@@ -45,7 +45,7 @@ cloudinary.config({
     api_secret: process.env.CLOUD_API_SECRET 
   });
 // Serve static files from the 'public' directory on the browser
-app.use(express.static(path.resolve(__dirname,'./public')));
+app.use(express.static(path.resolve(__dirname,'./client/dist')));
 
 app.use(cookieParser());
 
