@@ -54,7 +54,11 @@ app.use(express.json());
 
 app.use('/api/v1/auth',authRouter);
 app.use('/api/v1/jobs',authenticateUser,JobRouter);
-app.use('/api/v1/users',authenticateUser,userRouter)
+app.use('/api/v1/users',authenticateUser,userRouter);
+
+app.get('*',(req,res)=>{
+    res.sendFile(path.resolve(__dirname,'./client/dist','index.html'))
+})
 //displaying error when user tries to access links except the ones which are present
 app.use('*',(req,res)=>{
     res.status(404).json({msg:"Page not found"})

@@ -50,12 +50,10 @@ const Login = () => {
              <FormRow 
               type='email' 
               name='email' 
-              defaultValue='john@gmail.com'
             />
             <FormRow 
               type='password' 
-              name='password' 
-              defaultValue='*******'
+              name='password'
             />
           
         <SubmitButton />
