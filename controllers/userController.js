@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes"
 import User from "../models/UserModel.js";
 import Job from "../models/JobModel.js";
-import {promises as fs} from 'fs'
+import { formatImage } from "../middlewares/multerMiddleware.js";
 import cloudinary from 'cloudinary';
 
 
@@ -26,11 +26,9 @@ export const updateUser = async (req, res) => {
 
     // Check if a file exists in the request (file upload)
     if (req.file) {
+        const file = formatImage(req.file);
         // Upload the file to Cloudinary
-        const response = await cloudinary.v2.uploader.upload(req.file.path);
-        
-        // Delete the temporary file from the server
-        await fs.unlink(req.file.path);
+        const response = await cloudinary.v2.uploader.upload(file);   
 
         // Update the newUser object with avatar information from Cloudinary
         newUser.avatar = response.secure_url;
