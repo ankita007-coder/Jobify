@@ -7,6 +7,9 @@ import morgan from "morgan";
 import mongoose from "mongoose";
 const app = express();
 import cookieParser from 'cookie-parser';
+import helmet from 'helmet';
+import mongoSanitize from 'express-mongo-sanitize';
+
 
 import errorHandlerMiddleware from './middlewares/errorHandlerMiddleware.js';
 
@@ -51,6 +54,10 @@ app.use(cookieParser());
 
 // Enable parsing of JSON data in request bodies
 app.use(express.json());
+
+//security middlewares
+app.use(helmet());
+app.use(mongoSanitize());
 
 app.use('/api/v1/auth',authRouter);
 app.use('/api/v1/jobs',authenticateUser,JobRouter);

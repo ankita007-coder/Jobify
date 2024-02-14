@@ -1,16 +1,16 @@
-import React from 'react'
-import { Form, redirect, useNavigation, useOutletContext } from "react-router-dom";
+import { Form, redirect, useOutletContext } from "react-router-dom";
 import Wrapper from '../assets/wrappers/DashboardFormPage';
 import { FormRow, FormRowSelect, SubmitButton } from "../components";
 import { JOB_STATUS, JOB_TYPE } from '../../../utils/constants';
 import customFetch from '../utils/customFetch';
 import { toast } from 'react-toastify';
 
-export const action=async({request})=>{
+export const action = (queryClient)=> async({request})=>{
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
   try {
       await customFetch.post('/jobs',data);
+      queryClient.invalidateQueries(['jobs']);
       toast.success('Job added successfully');
       return redirect('all-jobs');
   } catch (error) {

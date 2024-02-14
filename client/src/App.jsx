@@ -1,4 +1,3 @@
-import React from 'react';
 import "./index.css"; // Import custom CSS styles
 import { RouterProvider, createBrowserRouter } from "react-router-dom"; // Import React Router components
 import {
@@ -27,6 +26,11 @@ import { action as deleteJobAction} from './pages/DeleteJob';
 import { loader as adminLoader} from './pages/Admin';
 import { action as profileAction } from './pages/Profile';
 import { loader as statsLoader } from './pages/Stats';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import ErrorElement from './components/ErrorElement';
+
+
 // Function to check and apply default theme preference
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem('dark-theme') === 'true';
@@ -36,6 +40,13 @@ export const checkDefaultTheme = () => {
 
 checkDefaultTheme(); // Call the function to set theme initially
 
+const queryClient = new QueryClient({
+  defaultOptions:{
+    queries:{
+      staleTime: 1000*60*3
+    }
+  }
+})
 // Create a router instance with defined routes
 const router = createBrowserRouter([
   {
@@ -55,32 +66,35 @@ const router = createBrowserRouter([
       {
         path: 'login', // Route for login
         element: <Login />, // Render Login component
-        action: loginAction, // Associate login action with this route
+        action: loginAction(queryClient), // Associate login action with this route
       },
       {
         path: 'dashboard', // Route for dashboard
-        element: <DashboardLayout />, // Render DashboardLayout component
-        loader: dashboardLoader,
+        element: <DashboardLayout 
+                  queryClient={queryClient}/>, // Render DashboardLayout component
+        loader: dashboardLoader(queryClient),
         children: [
           {
             index: true, // Default child route for dashboard
             element: <AddJob />, // Render AddJob 
-            action:addJobAction
+            action:addJobAction(queryClient)
           },
           {
             path: 'stats', // Route for statistics
             element: <Stats />, // Render Stats component
-            loader: statsLoader
+            loader: statsLoader(queryClient),
+            errorElement: <ErrorElement/>
           },
           {
             path: 'all-jobs', // Route for all jobs
             element: <AllJobs />, // Render AllJobs component
-            loader: allJobsLoader
+            loader: allJobsLoader(queryClient),
+            errorElement: <ErrorElement/>
           },
           {
             path: 'profile', // Route for user profile
             element: <Profile />, // Render Profile component
-            action: profileAction
+            action: profileAction(queryClient)
           },
           {
             path: 'admin', // Route for admin area
@@ -90,11 +104,11 @@ const router = createBrowserRouter([
           {
             path: 'edit-job/:id',
             element: <EditJob/>,
-            loader: editJobLoader,
-            action: editJobAction
+            loader: editJobLoader(queryClient),
+            action: editJobAction(queryClient)
           },{
             path:'delete-job/:id',
-            action: deleteJobAction
+            action: deleteJobAction(queryClient)
           }
         ],
       },
@@ -104,7 +118,10 @@ const router = createBrowserRouter([
 
 // App component, providing the router context
 const App = () => {
-  return <RouterProvider router={router} />;
+  return <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+            <ReactQueryDevtools initialIsOpen={false}/>
+          </QueryClientProvider>
 };
 
 export default App;
